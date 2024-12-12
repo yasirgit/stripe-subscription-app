@@ -1,6 +1,11 @@
 class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  # Handles incoming webhook events from Stripe.
+  # Reads the payload and signature from the request, verifies the event,
+  # and delegates handling to the appropriate method based on the event type.
+  #
+  # @return [void]
   def create
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
@@ -22,6 +27,11 @@ class WebhooksController < ApplicationController
 
   private
 
+  # Delegates handling of the event to the appropriate method 
+  # based on the event type.
+  #
+  # @param event [Stripe::Event] The event object from Stripe.
+  # @return [void]
   def handle_event(event)
     case event.type
     when 'customer.subscription.created'
@@ -35,25 +45,47 @@ class WebhooksController < ApplicationController
     end
   end
 
+  # Handles the 'customer.subscription.created' event.
+  # Creates a new Subscription record with the state set to 'unpaid'.
+  #
+  # @param subscription [Stripe::Subscription] The subscription object from Stripe.
+  # @return [void]
   def handle_subscription_created(subscription)
     Subscription.create(stripe_id: subscription.id, state: 'unpaid')
-    Rails.logger.info "Processed subscription creation: #{subscription.id}"
+    Rails.logger.info "processed subscription creation: #{subscription.id}"
   end
 
+  # Handles the 'invoice.payment_succeeded' event.
+  # Finds the associated Subscription record and marks it as paid.
+  #
+  # @param invoice [Stripe::Invoice] The invoice object from Stripe.
+  # @return [void]
   def handle_invoice_paid(invoice)
     subscription = Subscription.find_by(stripe_id: invoice.subscription)
-    return unless subscription
+    
+    unless subscription
+      Rails.logger.info "no subscription found for invoice #{invoice.id}"
+
+      return
+    end
 
     subscription.mark_as_paid if subscription
 
-    Rails.logger.info "Updated subscription #{subscription.stripe_id} to paid state"
+    Rails.logger.info "updated subscription #{subscription.stripe_id} to paid state"
   end
 
+  # Handles the 'customer.subscription.deleted' event.
+  # Cancels the local Subscription record if it exists and is paid,
+  # otherwise creates a new Stripe subscription.
+  #
+  # @param subscription [Stripe::Subscription] The subscription object from Stripe.
+  # @return [void]
   def handle_subscription_deleted(subscription)
     local_subscription = Subscription.find_by(stripe_id: subscription.id)
 
     unless local_subscription
       create_stripe_subscription(subscription)
+      
       return
     end
 
@@ -66,9 +98,13 @@ class WebhooksController < ApplicationController
     end
 
     local_subscription.cancel
-    Rails.logger.info "Canceled subscription: #{subscription.id}"
+    Rails.logger.info "canceled subscription: #{subscription.id}"
   end
 
+  # Creates a new subscription in Stripe using the provided subscription data.
+  #
+  # @param subscription [Stripe::Subscription] The subscription object from Stripe.
+  # @return [void]
   def create_stripe_subscription(subscription)
     Stripe.api_key = Rails.configuration.stripe[:secret_key]
     begin
