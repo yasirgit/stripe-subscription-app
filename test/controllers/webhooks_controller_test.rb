@@ -2,7 +2,7 @@ require "test_helper"
 
 class WebhooksControllerTest < ActionDispatch::IntegrationTest
   test "should get create" do
-    post webhooks_create_url
+    post '/webhooks', params: { body: '{}' }
     assert_response :success
   end
 end
