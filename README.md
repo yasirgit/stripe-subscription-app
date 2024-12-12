@@ -96,16 +96,7 @@ ngrok http 3000
 
 5. Click "Add endpoint" and enter your ngrok URL followed by the webhook route (e.g., `https://6a55-2a02-908-1871-6ee0-1d8c-a83b-f83f-8ba9.ngrok-free.app/webhooks/stripe`).
 
-
-Two failed issues in github CI/CD because of:
-Test: env variable is not there
-Lint:
-
 Now you can test Stripe webhooks with your local development server.
 
 
-
-
-
-
-
+**ℹ️ Info:** One test case does not pass the github CI/CD due to the absence of the env file.
