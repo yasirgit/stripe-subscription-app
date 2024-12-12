@@ -49,7 +49,8 @@ To run the unit tests, use the following command:
 rspec
 ```
 
-[Include test results here]
+<img width="1091" alt="Screenshot 2024-12-12 at 13 10 04" src="https://github.com/user-attachments/assets/ee0ad37a-0cf7-4738-b38f-9367f2df20eb" />
+
 
 
 ## Setting up ngrok for Webhook Testing
@@ -88,7 +89,8 @@ ngrok http 3000
 
 3. Copy the ngrok URL (e.g., `https://6a55-2a02-908-1871-6ee0-1d8c-a83b-f83f-8ba9.ngrok-free.app`).
 
-[Include screenshot of ngrok URL here]
+<img width="1091" alt="Screenshot 2024-12-12 at 12 38 56" src="https://github.com/user-attachments/assets/bc002c1c-5e5d-4339-a5b5-216febb91533" />
+
 
 4. Log in to your Stripe Dashboard and go to Developers > Webhooks.
 
