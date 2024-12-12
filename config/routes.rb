@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   # post '/stripe_webhooks', to: 'stripe_webhooks#create'
   post '/webhooks', to: 'webhooks#create'
 
+  resources :webhooks, only: [:create]
+
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
