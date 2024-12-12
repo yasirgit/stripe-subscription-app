@@ -18,7 +18,7 @@ RSpec.describe WebhooksController, type: :controller do
 
       it "creates a new unpaid subscription" do
         expect {
-          post :create, body: event.to_json
+          post :create, params: { body: event.to_json }
         }.to change(Subscription, :count).by(1)
 
         expect(Subscription.last.state).to eq('unpaid')
@@ -45,7 +45,7 @@ RSpec.describe WebhooksController, type: :controller do
       let!(:subscription) { create(:subscription, stripe_id: event.data.object.id, state: 'paid') }
 
       it "cancels the subscription" do
-        post :create, body: event.to_json
+        post :create, params: { body: event.to_json }
 
         subscription.reload
         expect(subscription.state).to eq('canceled')
