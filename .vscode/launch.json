@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "rdbg",
+        "name": "Attach rdbg",
+        "request": "attach"
+      },
+      {
+        "name": "Rails server",
+        "type": "Ruby",
+        "request": "launch",
+        "program": "${workspaceRoot}/bin/rails",
+        "args": ["server"],
+        "useBundler": true
+      }
+    ]
+  }
