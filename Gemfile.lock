@@ -287,6 +287,10 @@ GEM
       unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.36.2)
       parser (>= 3.3.1.0)
+    rubocop-github (0.20.0)
+      rubocop (>= 1.37)
+      rubocop-performance (>= 1.15)
+      rubocop-rails (>= 2.17)
     rubocop-minitest (0.36.0)
       rubocop (>= 1.61, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
@@ -418,6 +422,8 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 8.0.0, >= 8.0.0.1)
   rspec-rails
+  rubocop
+  rubocop-github
   rubocop-rails-omakase
   selenium-webdriver
   shoulda-matchers (~> 4.0)

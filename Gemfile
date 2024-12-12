@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
@@ -24,9 +25,9 @@ gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
+gem "solid_cable"
 gem "solid_cache"
 gem "solid_queue"
-gem "solid_cable"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -37,12 +38,14 @@ gem "kamal", require: false
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
-gem 'stripe'
-gem 'rspec-rails', group: [:development, :test]
-gem 'factory_bot_rails', group: [:development, :test]
-gem 'webmock', group: :test
+gem "factory_bot_rails", group: [:development, :test]
+gem "rspec-rails", group: [:development, :test]
+gem "stripe"
+gem "webmock", group: :test
 
+gem "rubocop", require: false
 
+gem "rubocop-github", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -54,11 +57,11 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
-  gem 'dotenv-rails'
+  gem "dotenv-rails"
 
-  gem 'stripe-ruby-mock', '~> 3.1.0'
+  gem "stripe-ruby-mock", "~> 3.1.0"
 
-  gem 'shoulda-matchers', '~> 4.0'
+  gem "shoulda-matchers", "~> 4.0"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false

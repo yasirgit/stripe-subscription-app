@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -8,7 +9,7 @@ class WebhooksController < ApplicationController
   # @return [void]
   def create
     payload = request.body.read
-    sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+    sig_header = request.env["HTTP_STRIPE_SIGNATURE"]
     event = nil
 
     begin
@@ -27,18 +28,18 @@ class WebhooksController < ApplicationController
 
   private
 
-  # Delegates handling of the event to the appropriate method 
+  # Delegates handling of the event to the appropriate method
   # based on the event type.
   #
   # @param event [Stripe::Event] The event object from Stripe.
   # @return [void]
   def handle_event(event)
     case event.type
-    when 'customer.subscription.created'
+    when "customer.subscription.created"
       handle_subscription_created(event.data.object)
-    when 'invoice.payment_succeeded'
+    when "invoice.payment_succeeded"
       handle_invoice_paid(event.data.object)
-    when 'customer.subscription.deleted'
+    when "customer.subscription.deleted"
       handle_subscription_deleted(event.data.object)
     else
       Rails.logger.info "Unhandled event type: #{event.type}"
@@ -51,7 +52,7 @@ class WebhooksController < ApplicationController
   # @param subscription [Stripe::Subscription] The subscription object from Stripe.
   # @return [void]
   def handle_subscription_created(subscription)
-    Subscription.create(stripe_id: subscription.id, state: 'unpaid')
+    Subscription.create(stripe_id: subscription.id, state: "unpaid")
     Rails.logger.info "processed subscription creation: #{subscription.id}"
   end
 
@@ -62,7 +63,7 @@ class WebhooksController < ApplicationController
   # @return [void]
   def handle_invoice_paid(invoice)
     subscription = Subscription.find_by(stripe_id: invoice.subscription)
-    
+
     unless subscription
       Rails.logger.info "no subscription found for invoice #{invoice.id}"
 
@@ -85,11 +86,11 @@ class WebhooksController < ApplicationController
 
     unless local_subscription
       create_stripe_subscription(subscription)
-      
+
       return
     end
 
-    if local_subscription.state == 'unpaid'
+    if local_subscription.state == "unpaid"
       Rails.logger.info "only paid  can be canceled, subscription: #{subscription.id}"
 
       create_stripe_subscription(subscription)
