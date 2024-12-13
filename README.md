@@ -41,6 +41,13 @@ docker-compose run web rails console
 docker-compose build
 ```
 
+7. Create a .env file in the root directory and add the following keys with their Stripe values:
+```sh
+1. STRIPE_PUBLISHABLE_KEY = 'pk_test_XXX'
+2. STRIPE_SECRET_KEY = 'sk_test_XXX'
+3. STRIPE_WEBHOOK_SECRET = 'whsec_XXX'
+```
+
 
 ## Running Unit Tests
 
