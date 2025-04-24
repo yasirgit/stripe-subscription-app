@@ -59,7 +59,7 @@ group :development, :test do
 
   gem "dotenv-rails"
 
-  gem "stripe-ruby-mock", "~> 3.1.0"
+  gem "stripe-ruby-mock", "~> 4.0.0"
 
   gem "shoulda-matchers", "~> 4.0"
 
