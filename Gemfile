@@ -61,7 +61,7 @@ group :development, :test do
 
   gem "stripe-ruby-mock", "~> 3.1.0"
 
-  gem "shoulda-matchers", "~> 4.0"
+  gem "shoulda-matchers", "~> 6.4"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
